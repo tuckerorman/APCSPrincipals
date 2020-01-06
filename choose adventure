@@ -1,0 +1,154 @@
+def wholegame():
+    def dirt():
+        print("you are now on a dry trail")
+        input2 = input("do you go left or right? ")
+        if input2.lower() == ("left"):
+            dropin()
+        elif input2.lower() ==("right"):
+            easyway()
+        else:
+            print("please only left or right")
+            dirt()
+    def dropin():
+        print("you see a massive drop in front of you")
+        input3= input("do you send it or go around? ")
+        if input3.lower() == ("send it"):
+            hospital()
+        elif input3.lower() ==("go around"):
+            keepriding()
+        else:
+            print("please only send it or go around")
+            dropin()
+    def keepriding():
+        print("you have a ton of fun, but are remorseful for not hitting the jump")
+        input8= input("do you hit a bigger drop that is in front of you? ")
+        if input8.lower() == ("no"):
+            ride()
+        elif input8.lower() == ("yes"):
+            hardcrash()
+        else:
+            print("please only yes or no")
+            keepriding()
+
+
+
+    def easyway():
+        print("you see a smooth trail in front of you")
+        input4= input("do you go home, or keep riding? ")
+        if input4.lower() == ("keep riding"):
+            fun()
+        elif input4.lower() == ("go home"):
+            weak()
+        else:
+            print("please only go home or keep riding")
+            easyway()
+
+    def weak():
+        print("you wish you kept going, and feel sad about the wasted day")
+        again()
+
+    def fun():
+        print("you see a fun whoops section in front of you")
+        input6= input("do you jump or just ride them? ")
+        if input6.lower() == ("jump"):
+            jump()
+        elif input6.lower() == ("ride"):
+            ride()
+        else:
+            print("please only jump or ride")
+            fun()
+    def jump():
+        print("you jump the whoops, but are headed for a cliff edge")
+        input7= input("do you try to stop? ")
+        if input7.lower() == ("yes"):
+            stop()
+        elif input7.lower() == ("no"):
+            cliff()
+        else:
+            print("please only yes or no")
+            jump()
+    def stop():
+        print("you stop just before the cliff edge, and survive")
+        again()
+    def cliff():
+        print("you accept your fate and fall off a 400 foot cliff")
+        again()
+
+    def ride():
+        print("you keep going, but get made fun of for not jumping")
+        again()
+
+
+
+
+
+
+
+    def hospital():
+        print("you realize that you are in over you head, and are headed for the trees")
+        input5= input("do you bail, or try to ride it out? ")
+        if input5.lower() == ("bail"):
+            bushesbail()
+        elif input5.lower() == ("ride it out"):
+            hardcrash()
+        else:
+            print("please only bail or ride it out")
+            hospital()
+
+    def bushesbail():
+        print("you land in a soft patch of bushes and are fine")
+        again()
+
+    def hardcrash():
+        print("you smash your skull into the rock, and lose all brain function")
+        again()
+
+
+    def snow():
+        print("you are now on a snowy trail")
+        input8= input("do you ski the black run or blue run")
+        if input8.lower() == ("black"):
+            hospital()
+        elif input8.lower()== ("blue"):
+            easyway()
+        else:
+            print("please only black or blue")
+            snow()
+
+
+
+
+
+
+
+
+
+
+
+    def repeat():
+        userInput1 = input("Do you like dirt or snow? ")
+        if userInput1.lower() == "snow":
+            snow()
+        elif userInput1.lower() == "dirt":
+            dirt()
+        else:
+            print("please only snow or dirt")
+            repeat()
+
+
+
+    def again():
+        input9 = input("do you want to play again? ")
+        if input9.lower()== ("yes"):
+            wholegame()
+        elif input9.lower()== ("no"):
+            end()
+        else:
+            print("please only yes or no")
+            again()
+
+    def end():
+        print("I hope you had fun!")
+
+    repeat()
+wholegame()
