@@ -1,297 +1,459 @@
-import turtle
-#defining the window
-window = turtle.Screen()
-window.bgcolor("mediumslateblue")
-window.title("tic tac toe")
-#defining the turtle
-t = turtle.Turtle()
-t.color("darkslateblue")
-t.pensize(5)
-t.shape("turtle")
-t.turtlesize(1)
-t.speed(6)
-#descriptions of speed color and size
-global turns
-turns=0
-#sets the turns for the whole code
-xmoves= []
-omoves= []
-#winning
-W1 = [1,2,3]
-W2 = [4,5,6]
-W3 = [7,8,9]
-W4 = [1,4,7]
-W5 = [2,5,8]
-W6 = [3,6,9]
-W7 = [1,5,9]
-W8 = [3,5,7]
-
-
-
-
-
-
-#move turtle
-
-#square()
-
-t.pu()
-t.goto(-300,-100)
-t.pd()
-t.forward(600)
-t.pu()
-t.goto(-300,100)
-t.pd()
-t.forward(600)
-t.pu()
-t.goto(-100,250)
-t.pd()
-t.right(90)
-t.fd(500)
-t.pu()
-t.goto(100,250)
-t.pd()
-t.fd(500)
-t.pu()
-#this is the square
-#this is where the game board is created
-#drawing the x
-
-
-def drawx():#draws the x
-    t.write("x", font=("times new roman", 200))
-
-def drawo():#draws the o
-    t.write("o", font=("times new roman", 200))
-
-place = []
-#winfunction
-def winx():
-    print(xmoves)
-    print(W1)
-    if all(each in xmoves for each in W1):
-        t.goto(-100,250)
-        t.write("winner", font=("times new roman", 60))
-    elif all(each in xmoves for each in W2):
-        t.goto(-100,250)
-        t.write("winner", font=("times new roman", 60))
-    elif all(each in xmoves for each in W3):
-        t.goto(-100,250)
-        t.write("winner", font=("times new roman", 60))
-    elif all(each in xmoves for each in W4):
-        t.goto(-100,250)
-        t.write("winner", font=("times new roman", 60))
-    elif all(each in xmoves for each in W5):
-        t.goto(-100,250)
-        t.write("winner", font=("times new roman", 60))
-    elif all(each in xmoves for each in W6):
-        t.goto(-100,250)
-        t.write("winner", font=("times new roman", 60))
-    elif all(each in xmoves for each in W7):
-        t.goto(-100,250)
-        t.write("winner", font=("times new roman", 60))
-    elif all(each in xmoves for each in W8):
-        t.goto(-100,250)
-        t.write("winner", font=("times new roman", 60))
-
-
-def locationx(x,y) : #makes board clickable for the x's
-    #puts an x in spot 1
-    if x > 100 and x < 300 and y > 100 and y < 250:#top right
-        t.pu()
-        if 1 not in place :
-            t.goto(150,100)
-            drawx()
-            place.append (1)
-            xmoves.append (1)
-            winx()
-
-        else:
-            locationx(x,y)
-    elif x > -100 and x < 100 and y > 100 and y < 250:#top mid
-        t.pu()
-        if 2 not in place :
-            t.goto(-50, 100)
-            drawx()
-            place.append (2)
-            xmoves.append (2)
-            winx()
-
-        else:
-            locationx(x,y)
-    elif x > -300 and x < -100 and y > 100 and y < 250: #top left
-        t.pu()
-
-        if 3 not in place :
-            t.goto(-250, 100)
-            drawx()
-            place.append (3)
-            xmoves.append (3)
-            winx()
-
-        else:
-            locationx(x,y)
-    elif x > 100 and x < 300 and y > -100 and y < 100: #midright
-        t.pu()
-        if 4 not in place :
-            t.goto(150, -100)
-            drawx()
-            place.append (4)
-            xmoves.append (4)
-            winx()
-
-        else:
-            locationx(x,y)
-    elif x > -100 and x < 100 and y > -100 and y < 100: #midmid
-        t.pu()
-        if 5 not in place :
-            t.goto(-50, -100)
-            drawx()
-            place.append (5)
-            xmoves.append (5)
-            winx()
-
-        else:
-            locationx(x,y)
-    elif x > -300 and x < -100 and y > -100 and y < 100: #midleft
-        t.pu()
-        if 6 not in place:
-            t.goto(-250, -100)
-            drawx()
-            place.append (6)
-            xmoves.append (6)
-            winx()
-
-        else:
-            locationx(x,y)
-    elif x > 100 and x < 300 and y > -250 and y < -100: #bot right
-        t.pu()
-        if 7 not in place:
-            t.goto(150, -300)
-            drawx()
-            place.append (7)
-            xmoves.append (7)
-            winx()
-
-        else:
-            locationx(x,y)
-    elif x > -100 and x < 100 and y > -250 and y < -100: #bot mid
-        t.pu()
-        if 8 not in place:
-            t.goto(-50, -300)
-            drawx()
-            place.append (8)
-            xmoves.append (8)
-            winx()
-
-        else:
-            locationx(x,y)
-    elif x > -300 and x < -100 and y > -250 and y < -100: #bot left
-        t.pu()
-        if 9 not in place :
-            t.goto(-250, -300)
-            drawx()
-            place.append (9)
-            xmoves.append (9)
-            winx()
-
-        else:
-            locationx(x,y)
-
-def locationo(x,y) : #makes board clickable for the o's
-    if x > 100 and x < 300 and y > 100 and y < 250:#top right
-        t.pu()
-        if 1 not in place :
-            t.goto(150,100)
-            drawo()
-            place.append (1)
-
-        else:
-            locationo(x,y)
-    elif x > -100 and x < 100 and y > 100 and y < 250:#top mid
-        t.pu()
-        if 2 not in place:
-            t.goto(-50, 100)
-            drawo()
-            place.append (2)
-
-        else:
-            locationo(x,y)
-    elif x > -300 and x < -100 and y > 100 and y < 250: #top left
-        t.pu()
-        if 3 not in place:
-            t.goto(-250, 100)
-            drawo()
-            place.append (3)
-
-        else:
-            locationo(x,y)
-    elif x > 100 and x < 300 and y > -100 and y < 100: #midright
-        t.pu()
-        if 4 not in place:
-            t.goto(150, -100)
-            drawo()
-            place.append (4)
-
-        else:
-            locationo(x,y)
-    elif x > -100 and x < 100 and y > -100 and y < 100: #midmid
-        t.pu()
-        if 5 not in place:
-            t.goto(-50, -100)
-            drawo()
-            place.append (5)
-
-        else:
-            locationo(x,y)
-    elif x > -300 and x < -100 and y > -100 and y < 100: #midleft
-        t.pu()
-        if 6 not in place:
-            t.goto(-250, -100)
-            drawo()
-            place.append (6)
-
-        else:
-            locationo(x,y)
-    elif x > 100 and x < 300 and y > -250 and y < -100: #bot right
-        t.pu()
-        if 7 not in place:
-            t.goto(150, -300)
-            drawo()
-            place.append (7)
-
-        else:
-            locationo(x,y)
-    elif x > -100 and x < 100 and y > -250 and y < -100: #bot mid
-        t.pu()
-        if 8 not in place:
-            t.goto(-50, -300)
-            drawo()
-            place.append (8)
-
-        else:
-            locationo(x,y)
-    elif x > -300 and x < -100 and y > -250 and y < -100: #bot left
-        t.pu()
-        if 9 not in place:
-            t.goto(-250, -300)
-            drawo()
-            place.append (9)
-
-        else:
-            locationo(x,y)
-
-moves = []
-def playing (x,y) : #switches x and o for each turn
+def tictac():
+    import turtle
+    # clear all items on screen
+    #defining the window
+    window = turtle.Screen()
+    window.bgcolor("mediumslateblue")
+    window.title("tic tac toe")
+    #defining the turtle
+    t = turtle.Turtle()
+    t.color("darkslateblue")
+    t.pensize(5)
+    t.shape("turtle")
+    t.turtlesize(1)
+    t.speed(6)
+    #descriptions of speed color and size
     global turns
-    if len(moves) < 9:
-        if turns == 1 :
-            locationo(x,y)
-            turns=0
+    turns=0
+    #sets the turns for the whole code
+    xmoves= []
+    omoves= []
+    #winning
+    W1 = [1,2,3]
+    W2 = [4,5,6]
+    W3 = [7,8,9]
+    W4 = [1,4,7]
+    W5 = [2,5,8]
+    W6 = [3,6,9]
+    W7 = [1,5,9]
+    W8 = [3,5,7]
 
-        elif turns == 0:
-            locationx(x,y)
-            turns=1
+
+
+
+
+
+    #move turtle
+
+    #square()
+    t.pu()
+    t.goto(-300,-100)
+    t.pd()
+    t.forward(600)
+    t.pu()
+    t.goto(-300,100)
+    t.pd()
+    t.forward(600)
+    t.pu()
+    t.goto(-100,250)
+    t.pd()
+    t.right(90)
+    t.fd(500)
+    t.pu()
+    t.goto(100,250)
+    t.pd()
+    t.fd(500)
+    t.pu()
+    #this is the square
+    #this is where the game board is created
+    #drawing the x
+
+
+    def drawx():#draws the x
+        t.write("x", font=("times new roman", 200))
+
+    def drawo():#draws the o
+        t.write("o", font=("times new roman", 200))
+
+    place = []
+    #winfunction for xs
+    def winx():
+        print(xmoves)
+        print(W1)
+        if all(each in xmoves for each in W1):
+            t.goto(-100,225)
+            t.write("xwinner", font=("times new roman", 60))
+            rguesses = window.textinput("white", "wanna restart my amigo? ")
+            if rguesses.lower() == "yes":
+                t.clear()
+                tictac()
+            else:
+                print("that sucks")
+                print("okay")
+        elif all(each in xmoves for each in W2):
+            t.goto(-100,225)
+            t.write("xwinner", font=("times new roman", 60))
+            rguesses = window.textinput("white", "wanna restart my amigo? ")
+            if rguesses.lower() == "yes":
+                t.clear()
+                tictac()
+            else:
+                print("that sucks")
+                print("okay")
+        elif all(each in xmoves for each in W3):
+            t.goto(-100,225)
+            t.write("xwinner", font=("times new roman", 60))
+            rguesses = window.textinput("white", "wanna restart my amigo? ")
+            if rguesses.lower() == "yes":
+                t.clear()
+                tictac()
+            else:
+                print("that sucks")
+                print("okay")
+        elif all(each in xmoves for each in W4):
+            t.goto(-100,225)
+            t.write("xwinner", font=("times new roman", 60))
+            rguesses = window.textinput("white", "wanna restart my amigo? ")
+            if rguesses.lower() == "yes":
+                t.clear()
+                tictac()
+            else:
+                print("that sucks")
+                print("okay")
+        elif all(each in xmoves for each in W5):
+            t.goto(-100,225)
+            t.write("xwinner", font=("times new roman", 60))
+            rguesses = window.textinput("white", "wanna restart my amigo? ")
+            if rguesses.lower() == "yes":
+                t.clear()
+                tictac()
+            else:
+                print("that sucks")
+                print("okay")
+        elif all(each in xmoves for each in W6):
+            t.goto(-100,225)
+            t.write("xwinner", font=("times new roman", 60))
+            rguesses = window.textinput("white", "wanna restart my amigo? ")
+            if rguesses.lower() == "yes":
+                t.clear()
+                tictac()
+            else:
+                print("that sucks")
+                print("okay")
+        elif all(each in xmoves for each in W7):
+            t.goto(-100,225)
+            t.write("xwinner", font=("times new roman", 60))
+            rguesses = window.textinput("white", "wanna restart my amigo? ")
+            if rguesses.lower() == "yes":
+                t.clear()
+                tictac()
+            else:
+                print("that sucks")
+                print("okay")
+        elif all(each in xmoves for each in W8):
+            t.goto(-100,225)
+            t.write("xwinner", font=("times new roman", 60))
+            rguesses = window.textinput("white", "wanna restart my amigo? ")
+            if rguesses.lower() == "yes":
+                t.clear()
+                tictac()
+            else:
+                print("that sucks")
+                print("okay")
+
+
+    def locationx(x,y) : #makes board clickable for the x's
+        #puts an x in spot 1
+        if x > 100 and x < 300 and y > 100 and y < 250:#top right
+            t.pu()
+            if 1 not in place :
+                t.goto(150,100)
+                drawx()
+                place.append (1)
+                xmoves.append (1)
+                winx()
+
+
+            else:
+                locationx(x,y)
+        elif x > -100 and x < 100 and y > 100 and y < 250:#top mid
+            t.pu()
+            if 2 not in place :
+                t.goto(-50, 100)
+                drawx()
+                place.append (2)
+                xmoves.append (2)
+                winx()
+
+
+            else:
+                locationx(x,y)
+        elif x > -300 and x < -100 and y > 100 and y < 250: #top left
+            t.pu()
+
+            if 3 not in place :
+                t.goto(-250, 100)
+                drawx()
+                place.append (3)
+                xmoves.append (3)
+                winx()
+
+            else:
+                locationx(x,y)
+        elif x > 100 and x < 300 and y > -100 and y < 100: #midright
+            t.pu()
+            if 4 not in place :
+                t.goto(150, -100)
+                drawx()
+                place.append (4)
+                xmoves.append (4)
+                winx()
+
+            else:
+                locationx(x,y)
+        elif x > -100 and x < 100 and y > -100 and y < 100: #midmid
+            t.pu()
+            if 5 not in place :
+                t.goto(-50, -100)
+                drawx()
+                place.append (5)
+                xmoves.append (5)
+                winx()
+
+            else:
+                locationx(x,y)
+        elif x > -300 and x < -100 and y > -100 and y < 100: #midleft
+            t.pu()
+            if 6 not in place:
+                t.goto(-250, -100)
+                drawx()
+                place.append (6)
+                xmoves.append (6)
+                winx()
+
+            else:
+                locationx(x,y)
+        elif x > 100 and x < 300 and y > -250 and y < -100: #bot right
+            t.pu()
+            if 7 not in place:
+                t.goto(150, -300)
+                drawx()
+                place.append (7)
+                xmoves.append (7)
+                winx()
+
+            else:
+                locationx(x,y)
+        elif x > -100 and x < 100 and y > -250 and y < -100: #bot mid
+            t.pu()
+            if 8 not in place:
+                t.goto(-50, -300)
+                drawx()
+                place.append (8)
+                xmoves.append (8)
+                winx()
+
+            else:
+                locationx(x,y)
+        elif x > -300 and x < -100 and y > -250 and y < -100: #bot left
+            t.pu()
+            if 9 not in place :
+                t.goto(-250, -300)
+                drawx()
+                place.append (9)
+                xmoves.append (9)
+                winx()
+
+            else:
+                locationx(x,y)
+
+
+    #win function for os
+    def wino():
+        print(omoves)
+        if all(each in omoves for each in W1):
+            t.goto(-100,225)
+            t.write("owinner", font=("times new roman", 60))
+            rguesses = window.textinput("white", "wanna restart my amigo? ")
+            if rguesses.lower() == "yes":
+                t.clear()
+                tictac()
+            else:
+                print("that sucks")
+                print("okay")
+        elif all(each in omoves for each in W2):
+            t.goto(-100,225)
+            t.write("owinner", font=("times new roman", 60))
+            rguesses = window.textinput("white", "wanna restart my amigo? ")
+            if rguesses.lower() == "yes":
+                t.clear()
+                tictac()
+            else:
+                print("that sucks")
+                print("okay")
+        elif all(each in omoves for each in W3):
+            t.goto(-100,225)
+            t.write("owinner", font=("times new roman", 60))
+            rguesses = window.textinput("white", "wanna restart my amigo? ")
+            if rguesses.lower() == "yes":
+                t.clear()
+                tictac()
+            else:
+                print("that sucks")
+                print("okay")
+        elif all(each in omoves for each in W4):
+            t.goto(-100,225)
+            t.write("owinner", font=("times new roman", 60))
+            rguesses = window.textinput("white", "wanna restart my amigo? ")
+            if rguesses.lower() == "yes":
+                t.clear()
+                tictac()
+            else:
+                print("that sucks")
+                print("okay")
+        elif all(each in omoves for each in W5):
+            t.goto(-100,225)
+            t.write("owinner", font=("times new roman", 60))
+            rguesses = window.textinput("white power", "wanna restart my amigo? ")
+            if rguesses.lower() == "yes":
+                t.clear()
+                tictac()
+            else:
+                print("that sucks")
+                print("okay")
+        elif all(each in omoves for each in W6):
+            t.goto(-100,225)
+            t.write("owinner", font=("times new roman", 60))
+            rguesses = window.textinput("white", "wanna restart my amigo? ")
+            if rguesses.lower() == "yes":
+                t.clear()
+                tictac()
+            else:
+                print("that sucks")
+                print("okay")
+        elif all(each in omoves for each in W7):
+            t.goto(-100,225)
+            t.write("owinner", font=("times new roman", 60))
+            rguesses = window.textinput("white", "wanna restart my amigo? ")
+            if rguesses.lower() == "yes":
+                t.clear()
+                tictac()
+            else:
+                print("that sucks")
+                print("okay")
+        elif all(each in omoves for each in W8):
+            t.goto(-100,225)
+            t.write("owinner", font=("times new roman", 60))
+            rguesses = window.textinput("white", "wanna restart my amigo? ")
+            if rguesses.lower() == "yes":
+                t.clear()
+                tictac()
+            else:
+                print("that sucks")
+                print("okay")
+
+    def locationo(x,y) : #makes board clickable for the o's
+        if x > 100 and x < 300 and y > 100 and y < 250:#top right
+            t.pu()
+            if 1 not in place :
+                t.goto(150,100)
+                drawo()
+                place.append (1)
+                omoves.append(1)
+                wino()
+
+            else:
+                locationo(x,y)
+        elif x > -100 and x < 100 and y > 100 and y < 250:#top mid
+            t.pu()
+            if 2 not in place:
+                t.goto(-50, 100)
+                drawo()
+                place.append (2)
+                omoves.append(2)
+                wino()
+
+            else:
+                locationo(x,y)
+        elif x > -300 and x < -100 and y > 100 and y < 250: #top left
+            t.pu()
+            if 3 not in place:
+                t.goto(-250, 100)
+                drawo()
+                place.append (3)
+                omoves.append(3)
+                wino()
+
+            else:
+                locationo(x,y)
+        elif x > 100 and x < 300 and y > -100 and y < 100: #midright
+            t.pu()
+            if 4 not in place:
+                t.goto(150, -100)
+                drawo()
+                place.append (4)
+                omoves.append(4)
+                wino()
+
+            else:
+                locationo(x,y)
+        elif x > -100 and x < 100 and y > -100 and y < 100: #midmid
+            t.pu()
+            if 5 not in place:
+                t.goto(-50, -100)
+                drawo()
+                place.append (5)
+                omoves.append(5)
+                wino()
+
+            else:
+                locationo(x,y)
+        elif x > -300 and x < -100 and y > -100 and y < 100: #midleft
+            t.pu()
+            if 6 not in place:
+                t.goto(-250, -100)
+                drawo()
+                place.append (6)
+                omoves.append(6)
+                wino()
+
+            else:
+                locationo(x,y)
+        elif x > 100 and x < 300 and y > -250 and y < -100: #bot right
+            t.pu()
+            if 7 not in place:
+                t.goto(150, -300)
+                drawo()
+                place.append (7)
+                omoves.append(7)
+                wino()
+
+            else:
+                locationo(x,y)
+        elif x > -100 and x < 100 and y > -250 and y < -100: #bot mid
+            t.pu()
+            if 8 not in place:
+                t.goto(-50, -300)
+                drawo()
+                place.append (8)
+                omoves.append(8)
+                wino()
+
+            else:
+                locationo(x,y)
+        elif x > -300 and x < -100 and y > -250 and y < -100: #bot left
+            t.pu()
+            if 9 not in place:
+                t.goto(-250, -300)
+                drawo()
+                place.append (9)
+                omoves.append(9)
+                wino()
+
+            else:
+                locationo(x,y)
+
+    moves = []
+    def playing (x,y) : #switches x and o for each turn
+        global turns
+        if len(moves) < 9:
+            if turns == 1 :
+                locationo(x,y)
+                turns=0
+
+            elif turns == 0:
+                locationx(x,y)
+                turns=1
 
 
 
@@ -299,9 +461,11 @@ def playing (x,y) : #switches x and o for each turn
 
 
 
-window.onscreenclick(playing)
+    window.onscreenclick(playing)
 
-window.mainloop()
+    window.mainloop()
+tictac()
+
 
 
 
