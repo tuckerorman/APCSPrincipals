@@ -14,7 +14,17 @@ t.speed(6)
 global turns
 turns=0
 #sets the turns for the whole code
-
+xmoves= []
+omoves= []
+#winning
+W1 = [1,2,3]
+W2 = [4,5,6]
+W3 = [7,8,9]
+W4 = [1,4,7]
+W5 = [2,5,8]
+W6 = [3,6,9]
+W7 = [1,5,9]
+W8 = [3,5,7]
 
 
 
@@ -55,17 +65,46 @@ def drawo():#draws the o
     t.write("o", font=("times new roman", 200))
 
 place = []
-
-
+#winfunction
+def winx():
+    print(xmoves)
+    print(W1)
+    if all(each in xmoves for each in W1):
+        t.goto(-100,250)
+        t.write("winner", font=("times new roman", 60))
+    elif all(each in xmoves for each in W2):
+        t.goto(-100,250)
+        t.write("winner", font=("times new roman", 60))
+    elif all(each in xmoves for each in W3):
+        t.goto(-100,250)
+        t.write("winner", font=("times new roman", 60))
+    elif all(each in xmoves for each in W4):
+        t.goto(-100,250)
+        t.write("winner", font=("times new roman", 60))
+    elif all(each in xmoves for each in W5):
+        t.goto(-100,250)
+        t.write("winner", font=("times new roman", 60))
+    elif all(each in xmoves for each in W6):
+        t.goto(-100,250)
+        t.write("winner", font=("times new roman", 60))
+    elif all(each in xmoves for each in W7):
+        t.goto(-100,250)
+        t.write("winner", font=("times new roman", 60))
+    elif all(each in xmoves for each in W8):
+        t.goto(-100,250)
+        t.write("winner", font=("times new roman", 60))
 
 
 def locationx(x,y) : #makes board clickable for the x's
+    #puts an x in spot 1
     if x > 100 and x < 300 and y > 100 and y < 250:#top right
         t.pu()
         if 1 not in place :
             t.goto(150,100)
             drawx()
             place.append (1)
+            xmoves.append (1)
+            winx()
 
         else:
             locationx(x,y)
@@ -75,15 +114,20 @@ def locationx(x,y) : #makes board clickable for the x's
             t.goto(-50, 100)
             drawx()
             place.append (2)
+            xmoves.append (2)
+            winx()
 
         else:
             locationx(x,y)
     elif x > -300 and x < -100 and y > 100 and y < 250: #top left
         t.pu()
+
         if 3 not in place :
             t.goto(-250, 100)
             drawx()
             place.append (3)
+            xmoves.append (3)
+            winx()
 
         else:
             locationx(x,y)
@@ -93,6 +137,8 @@ def locationx(x,y) : #makes board clickable for the x's
             t.goto(150, -100)
             drawx()
             place.append (4)
+            xmoves.append (4)
+            winx()
 
         else:
             locationx(x,y)
@@ -102,6 +148,8 @@ def locationx(x,y) : #makes board clickable for the x's
             t.goto(-50, -100)
             drawx()
             place.append (5)
+            xmoves.append (5)
+            winx()
 
         else:
             locationx(x,y)
@@ -111,6 +159,8 @@ def locationx(x,y) : #makes board clickable for the x's
             t.goto(-250, -100)
             drawx()
             place.append (6)
+            xmoves.append (6)
+            winx()
 
         else:
             locationx(x,y)
@@ -120,6 +170,8 @@ def locationx(x,y) : #makes board clickable for the x's
             t.goto(150, -300)
             drawx()
             place.append (7)
+            xmoves.append (7)
+            winx()
 
         else:
             locationx(x,y)
@@ -129,6 +181,8 @@ def locationx(x,y) : #makes board clickable for the x's
             t.goto(-50, -300)
             drawx()
             place.append (8)
+            xmoves.append (8)
+            winx()
 
         else:
             locationx(x,y)
@@ -138,6 +192,8 @@ def locationx(x,y) : #makes board clickable for the x's
             t.goto(-250, -300)
             drawx()
             place.append (9)
+            xmoves.append (9)
+            winx()
 
         else:
             locationx(x,y)
@@ -232,27 +288,29 @@ def playing (x,y) : #switches x and o for each turn
         if turns == 1 :
             locationo(x,y)
             turns=0
-            moves.append(turns)
+
         elif turns == 0:
             locationx(x,y)
             turns=1
-            moves.append(turns)
 
 
 
-#winning
-W1 = [1,2,3]
-W2 = []
-W3
-W4
-W5
-W6
-W7
+
+
 
 
 window.onscreenclick(playing)
 
 window.mainloop()
+
+
+
+
+
+
+
+
+
 
 
 
