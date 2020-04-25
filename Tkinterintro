@@ -1,0 +1,127 @@
+from tkinter import *
+from random import randrange
+#for moving the ship a random amount
+
+
+window = Tk()
+#sets up canvas
+playground = Canvas(window, width=3840, height =2160, bg= "black")
+playground.pack()
+global Score
+Score = 0
+#this creates background image
+spaceImg = PhotoImage(file = "Webp.net-resizeimage.gif") #this is space background
+spaceBg= playground.create_image(20,20, anchor = NW, image = spaceImg)
+#this puts an image on top of the background
+shipPic = PhotoImage(file = "Webp.net-resizeimage.png")  #spaceship
+dostatement = shipPic
+ship = playground.create_image(300, 300, image= shipPic)
+
+stardestroyer = PhotoImage(file = "stardsgip.png")
+gg= stardestroyer
+stargate= playground.create_image(700,300, image=stardestroyer)
+
+def movebig():
+    return randrange(0,1300), randrange(100,400)
+
+def shipbound():
+    global Score
+
+
+
+    try:
+        shipBbox = playground.bbox(ship)
+        #each coordinate now has its own value
+        shipx1 = shipBbox[0]
+        shipy1 = shipBbox[1]
+        shipx2 = shipBbox[2]
+        shipy2 = shipBbox[3]
+
+        #keeping the ship from going off screen
+        #second image limits
+        stardestroyerBbox = playground.bbox(stargate)
+        destroyx1 = stardestroyerBbox[0]
+        destroyy1 = stardestroyerBbox[1]
+        destroyx2 = stardestroyerBbox[2]
+        destroyy2 = stardestroyerBbox[3]
+
+
+
+
+        if destroyy1 <= shipy1 <= destroyy2 and destroyx1 <= shipx1 <= destroyx2:
+            playground.move(ship, -20, 0)
+            playground.coords(stargate, movebig())
+            Score+=1
+            pointslabel.config(text="You've hit the ship:"+ str(Score) +" time(s)")
+
+        #right side
+        elif shipx2 > 1350:
+            playground.move(ship, -20,0)
+        #checking left
+        elif shipx1 < 10:
+            playground.move(ship, 20, 0)
+        #checking bottom
+        elif shipy1 > 500:
+            playground.move(ship, 0, -20)
+        #checking top
+        elif shipy2 < 150:
+            playground.move(ship, 0, 20)
+    except:
+        #right side
+        if shipx2 > 1350:
+            playground.move(ship, -20,0)
+        #checking left
+        elif shipx1 < 10:
+            playground.move(ship, 20, 0)
+        #checking top
+        elif shipy1 > 500:
+            playground.move(ship, 0, -20)
+        elif shipy2 < 150:
+            playground.move(ship, 0, 20)
+
+
+
+
+
+
+
+
+pointslabel = Label(window, text="You've hit the ship:", bg = "pink", fg = "red", height = "5", width = "40")
+pointslabel.place(x=40, y=20)
+
+
+
+
+
+#movement functions
+def moveright(event):
+    global moveright
+    for i in range(3):
+        playground.move(ship, 5, 0)
+        shipbound()
+def moveleft(event):
+    global moveleft
+    for i in range(3):
+        playground.move(ship, -5,0)
+        shipbound()
+def moveup(event):
+    global moveup
+    for i in range(3):
+        playground.move(ship, 0, -5)
+        shipbound()
+def movedown(event):
+    global movedown
+    for i in range(3):
+        playground.move(ship, 0, 5)
+        shipbound()
+#binds keys to movement functions
+playground.bind_all("<Right>", moveright)
+playground.bind_all("<Left>", moveleft)
+playground.bind_all("<Up>", moveup)
+playground.bind_all("<Down>", movedown)
+
+
+
+
+window.mainloop()
+
