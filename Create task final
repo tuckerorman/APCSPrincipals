@@ -18,7 +18,7 @@ playground.pack()
 #background
 computerImg = PhotoImage(file ="Computer background.gif")
 Com = computerImg
-computerBg = playground.create_image(20,20, anchor = NW, image = computerImg)
+computerBg = playground.create_image(0,0, anchor = NW, image = computerImg)
 
 #bird that dodges objects
 birdPic = PhotoImage(file = "bird.png")
@@ -47,32 +47,45 @@ dcowx2 = dcowBbox[2]
 dcowy2 = dcowBbox[3]
 
 def birdbound():
+    dbBbox = playground.bbox(db)
+    #defining the coordinates of the bird
+    dbx1 = dbBbox[0]
+    dby1 = dbBbox[1]
+    dbx2 = dbBbox[2]
+    dby2 = dbBbox[3]
+
+    #setting limits for the cow picture
+    dcowBbox = playground.bbox(dcow)
+    dcowx1 = dcowBbox[0]
+    dcowy1 = dcowBbox[1]
+    dcowx2 = dcowBbox[2]
+    dcowy2 = dcowBbox[3]
     try:
         #left side
         if dbx1 <10 :
             playground.move(db, 10, 0)
         #right side
-        elif dbx2 > 1360:
+        elif dbx2 > 1180:
             playground.move(db, -10, 0)
         #top
-        elif dby1 > 20:
-            playground.move(db, 0, -10)
-        #bottom
-        elif dby2 < 100:
+        elif dby1 < 10:
             playground.move(db, 0, 10)
+        #bottom
+        elif dby2 > 630:
+            playground.move(db, 0, -10)
     except:
          #left side
         if dbx1 < 10:
             playground.move(db, 10, 0)
         #right side
-        elif dbx2 > 1360:
+        elif dbx2 > 1180:
             playground.move(db, -10, 0)
         #top
-        elif dby1 > 20:
-            playground.move(db, 0, -10)
-        #bottom
-        elif dby2 < 100:
+        elif dby1 < 10:
             playground.move(db, 0, 10)
+        #bottom
+        elif dby2 > 630:
+            playground.move(db, 0, -10)
 
 
 
@@ -85,22 +98,22 @@ def birdbound():
 #movement of the bird
 def moveright(event):
     global moveright
-    for i in range(5):
+    for i in range(3):
         playground.move(db, 5, 0)
         birdbound()
 def moveleft(event):
     global moveleft
-    for i in range(5):
+    for i in range(3):
         playground.move(db, -5, 0)
         birdbound()
 def moveup(event):
     global moveup
-    for i in range(5):
+    for i in range(3):
         playground.move(db, 0, -5)
         birdbound()
 def movedown(event):
     global movedown
-    for i in range(5):
+    for i in range(3):
         playground.move(db, 0, 5)
         birdbound()
 
@@ -120,7 +133,7 @@ def cowoff():
 
 #moving the cow to the edge
 def cowcollision():
-    if dcowy1 <= dby1 <= dcowy2 and dcowx1 <= dbx1 <= dcowx2 and dcowy1 <= dby2 <= dcowy2 and dcowx1 <= dbx2 <= dcowx2:
+    if dcowy1 <= dby1 <= dcowy2 and dcowx1 <= dbx1 <= dcowx2:
         Score+=1
         pointslabel.config(text="You've hit the cow:"+ str(Score) +" time(s)")
 def moveCow():
@@ -159,5 +172,7 @@ infoLabel.pack()
 playground.bind_all("<space>", threads)
 
 window.mainloop()
+
+
 
 
