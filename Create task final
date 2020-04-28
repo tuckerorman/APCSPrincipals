@@ -7,171 +7,204 @@ window = Tk()
 global Score
 Score = 0
 
+def game():
+    #sets up canvas
+    playground= Canvas(window, width=1200, height= 630, bg="black")
+    playground.pack()
+
+    #background
+    computerImg = PhotoImage(file ="Computer background.gif")
+    Com = computerImg
+    computerBg = playground.create_image(0,0, anchor = NW, image = computerImg)
+
+    #bird that dodges objects
+    birdPic = PhotoImage(file = "bird.png")
+    bird = birdPic
+    db = playground.create_image(700,300, image= birdPic)
+
+    #first object (a cow)
+    cowPic = PhotoImage(file = "cow.png")
+    cow= cowPic
+    dcow = playground.create_image(300,400, image= cowPic)
+
+    #birdwinline
+    finishPic = PhotoImage(file = "finish.png")
+    finish= finishPic
+    finishline = playground.create_image(10,200, image= finishPic)
+
+
+    def birdbound():
+        dbBbox = playground.bbox(db)
+        #defining the coordinates of the bird
+        dbx1 = dbBbox[0]
+        dby1 = dbBbox[1]
+        dbx2 = dbBbox[2]
+        dby2 = dbBbox[3]
+
+        #setting limits for the cow picture
+        dcowBbox = playground.bbox(dcow)
+        dcowx1 = dcowBbox[0]
+        dcowy1 = dcowBbox[1]
+        dcowx2 = dcowBbox[2]
+        dcowy2 = dcowBbox[3]
+
+        finishlineBbox= playground.bbox(finishline)
+        finishlinex1 = finishlineBbox[0]
+        finishliney1 = finishlineBbox[1]
+        finishlinex2 = finishlineBbox[2]
+        finishliney2 = finishlineBbox[3]
+
+        try:
+            #left side
+            if dbx1 <10 :
+                playground.move(db, 10, 0)
+            #right side
+            elif dbx2 > 1180:
+                playground.move(db, -10, 0)
+            #top
+            elif dby1 < 10:
+                playground.move(db, 0, 10)
+            #bottom
+            elif dby2 > 630:
+                playground.move(db, 0, -10)
+        except:
+             #left side
+            if dbx1 < 10:
+                playground.move(db, 10, 0)
+            #right side
+            elif dbx2 > 1180:
+                playground.move(db, -10, 0)
+            #top
+            elif dby1 < 10:
+                playground.move(db, 0, 10)
+            #bottom
+            elif dby2 > 630:
+                playground.move(db, 0, -10)
+        if dcowy1 <= dby1 <= dcowy2 and dcowx1 <= dbx1 <= dcowx2:
+            lose()
+
+    #movement of the bird
+    def moveright(event):
+        global moveright
+        for i in range(3):
+            playground.move(db, 5, 0)
+            birdbound()
+    def moveleft(event):
+        global moveleft
+        for i in range(3):
+            playground.move(db, -5, 0)
+            birdbound()
+    def moveup(event):
+        global moveup
+        for i in range(3):
+            playground.move(db, 0, -5)
+            birdbound()
+    def movedown(event):
+        global movedown
+        for i in range(3):
+            playground.move(db, 0, 5)
+            birdbound()
+
+    #binds keys to movements
+    playground.bind_all("<Right>", moveright)
+    playground.bind_all("<Left>", moveleft)
+    playground.bind_all("<Up>", moveup)
+    playground.bind_all("<Down>", movedown)
+
+    def cowoff():
+        ry  = randint(30, 620)
+        cowboundary= playground.bbox(dcow)
+        if cowboundary[2] > 1400:
+            playground.coords(dcow, -50, ry)
+
+    #cow getting the bird function
+    def cowcollision():
+        dbBbox = playground.bbox(db)
+        #defining the coordinates of the bird
+        dbx1 = dbBbox[0]
+        dby1 = dbBbox[1]
+        dbx2 = dbBbox[2]
+        dby2 = dbBbox[3]
+
+        #setting limits for the cow picture
+        dcowBbox = playground.bbox(dcow)
+        dcowx1 = dcowBbox[0]
+        dcowy1 = dcowBbox[1]
+        dcowx2 = dcowBbox[2]
+        dcowy2 = dcowBbox[3]
+        if dcowy1 <= dby1 <= dcowy2 and dcowx1 <= dbx1 <= dcowx2:
+            lose()
+    def birdcollision():
+        finishlineBbox= playground.bbox(finishline)
+        #def of finish coords
+        finishlinex1 = finishlineBbox[0]
+        finishliney1 = finishlineBbox[1]
+        finishlinex2 = finishlineBbox[2]
+        finishliney2 = finishlineBbox[3]
+
+        dbBbox = playground.bbox(db)
+        #defining the coordinates of the bird
+        dbx1 = dbBbox[0]
+        dby1 = dbBbox[1]
+        dbx2 = dbBbox[2]
+        dby2 = dbBbox[3]
+
+        if finishliney1 <= dby1 <= finishliney2 and finishlinex1 <= dbx1 <= finishlinex2:
+            win()
+
+    def moveCow():
+        cowcollision()
+        cowoff()
+        playground.move(dcow, 4, 0)
+        if playground.bbox(dcow)[0] >= window.winfo_width():
+            playground.delete(dcow)
+        else:
+            window.after(50, moveCow)
+
+    #moving the bird to the edge
+    def moveBird():
+        birdcollision()
+        playground.move(db, 1, 0)
+        if playground.bbox(db)[0] >= window.winfo_width():
+            playground.delete(db)
+        else:
+            window.after(50, moveBird)
+
+    def win():
+        birdwin()
+
+    def birdwin():
+        winlabel = Label(window, text="Bird has won. Press space to restart.", bg = "pink", fg = "red", height = "5", width = "40")
+        winlabel.place(x=400, y=10)
+
+    #sets up points system for hitting cow
+    def lose():
+        birdlose()
+
+    def birdlose():
+        loselabel = Label(window, text="Bird has lost. Press space to restart.", bg = "pink", fg = "red", height = "5", width = "40")
+        loselabel.place(x=400, y=10)
+        game()
+
+    #making the threads
+    def threads(*args):
+        thread1 = threading.Thread(target= moveCow)
+        #thread2 = threading.Thread(target= moveBird)
+        thread1.start()
+        #thread2.start()
 
 
 
+    infoLabel = Label(window, text= "Push space 1x for easy, 2x for medium, and 3x for hard. Dodge cows to survive, and move to the left edge to win. ")
+    infoLabel.pack()
 
-#sets up canvas
-playground= Canvas(window, width=1200, height= 630, bg="black")
-playground.pack()
+    #starting thread
+    playground.bind_all("<space>", threads)
 
-#background
-computerImg = PhotoImage(file ="Computer background.gif")
-Com = computerImg
-computerBg = playground.create_image(0,0, anchor = NW, image = computerImg)
+    window.mainloop()
 
-#bird that dodges objects
-birdPic = PhotoImage(file = "bird.png")
-bird = birdPic
-db = playground.create_image(100,300, image= birdPic)
+game()
 
-#first object (a cow)
-cowPic = PhotoImage(file = "cow.png")
-cow= cowPic
-dcow = playground.create_image(300,400, image= cowPic)
-
-
-
-dbBbox = playground.bbox(db)
-#defining the coordinates of the bird
-dbx1 = dbBbox[0]
-dby1 = dbBbox[1]
-dbx2 = dbBbox[2]
-dby2 = dbBbox[3]
-
-#setting limits for the cow picture
-dcowBbox = playground.bbox(dcow)
-dcowx1 = dcowBbox[0]
-dcowy1 = dcowBbox[1]
-dcowx2 = dcowBbox[2]
-dcowy2 = dcowBbox[3]
-
-def birdbound():
-    dbBbox = playground.bbox(db)
-    #defining the coordinates of the bird
-    dbx1 = dbBbox[0]
-    dby1 = dbBbox[1]
-    dbx2 = dbBbox[2]
-    dby2 = dbBbox[3]
-
-    #setting limits for the cow picture
-    dcowBbox = playground.bbox(dcow)
-    dcowx1 = dcowBbox[0]
-    dcowy1 = dcowBbox[1]
-    dcowx2 = dcowBbox[2]
-    dcowy2 = dcowBbox[3]
-    try:
-        #left side
-        if dbx1 <10 :
-            playground.move(db, 10, 0)
-        #right side
-        elif dbx2 > 1180:
-            playground.move(db, -10, 0)
-        #top
-        elif dby1 < 10:
-            playground.move(db, 0, 10)
-        #bottom
-        elif dby2 > 630:
-            playground.move(db, 0, -10)
-    except:
-         #left side
-        if dbx1 < 10:
-            playground.move(db, 10, 0)
-        #right side
-        elif dbx2 > 1180:
-            playground.move(db, -10, 0)
-        #top
-        elif dby1 < 10:
-            playground.move(db, 0, 10)
-        #bottom
-        elif dby2 > 630:
-            playground.move(db, 0, -10)
-
-
-
-
-
-
-
-
-
-#movement of the bird
-def moveright(event):
-    global moveright
-    for i in range(3):
-        playground.move(db, 5, 0)
-        birdbound()
-def moveleft(event):
-    global moveleft
-    for i in range(3):
-        playground.move(db, -5, 0)
-        birdbound()
-def moveup(event):
-    global moveup
-    for i in range(3):
-        playground.move(db, 0, -5)
-        birdbound()
-def movedown(event):
-    global movedown
-    for i in range(3):
-        playground.move(db, 0, 5)
-        birdbound()
-
-
-
-#binds keys to movements
-playground.bind_all("<Right>", moveright)
-playground.bind_all("<Left>", moveleft)
-playground.bind_all("<Up>", moveup)
-playground.bind_all("<Down>", movedown)
-
-def cowoff():
-    ry  = randint(30, 620)
-    cowboundary= playground.bbox(dcow)
-    if cowboundary[2] > 1400:
-        playground.coords(dcow, -50, ry)
-
-#moving the cow to the edge
-def cowcollision():
-    if dcowy1 <= dby1 <= dcowy2 and dcowx1 <= dbx1 <= dcowx2:
-        Score+=1
-        pointslabel.config(text="You've hit the cow:"+ str(Score) +" time(s)")
-def moveCow():
-    cowcollision()
-    cowoff()
-    playground.move(dcow, 4, 0)
-    if playground.bbox(dcow)[0] >= window.winfo_width():
-        playground.delete(dcow)
-    else:
-        window.after(50, moveCow)
-
-#moving the bird to the edge
-def moveBird():
-    playground.move(db, 1, 0)
-    if playground.bbox(db)[0] >= window.winfo_width():
-        playground.delete(db)
-    else:
-        window.after(50, moveBird)
-
-#making the two threads
-def threads(*args):
-    thread1 = threading.Thread(target= moveCow)
-    thread2 = threading.Thread(target= moveBird)
-    thread1.start()
-    thread2.start()
-
-
-#sets up points system for hitting cow
-pointslabel = Label(window, text="You've hit the cow:", bg = "blue", fg = "black", height = "5", width = "20")
-pointslabel.place(x=470, y=20)
-
-infoLabel = Label(window, text= "push space to start moving")
-infoLabel.pack()
-
-#starting thread
-playground.bind_all("<space>", threads)
-
-window.mainloop()
 
 
 
