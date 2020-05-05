@@ -1,14 +1,22 @@
-
 #setting up tk
-import time
 from tkinter import *
+
 import threading
+
 from random import *
+
+#this is for the random bounce off the cow
+from random import randrange
+
 window = Tk()
 
-
+#defining the scores as equaling zero at first
 global Birdscore
 Birdscore = 0
+
+global cowscore
+cowscore= 0
+
 #sets up canvas
 playground= Canvas(window, width=1200, height= 630, bg="black")
 playground.pack()
@@ -23,27 +31,32 @@ finishline = playground.create_image(10,200, image= finishPic)
 computerImg = PhotoImage(file ="Computer background.gif")
 Com = computerImg
 computerBg = playground.create_image(0,0, anchor = NW, image = computerImg)
+#citation: https://everything-voluntary.com/we-wanted-tech
 
 #bird that dodges objects
 birdPic = PhotoImage(file = "bird.png")
 bird = birdPic
 db = playground.create_image(700,300, image= birdPic)
+#citation: http://pngimg.com/imgs/animals/birds/, free download
 
 #first object (a cow)
 cowPic = PhotoImage(file = "cow.png")
 cow= cowPic
 dcow = playground.create_image(300,400, image= cowPic)
+#citation: https://purepng.com/photo/28879/animals-cow
 
 #birdwinline
 finishPic = PhotoImage(file = "finish.png")
 finish= finishPic
 finishline = playground.create_image(10,200, image= finishPic)
+#citation: https://www.clipart.email/clipart/checkered-finish-line-clipart-50231.html
 
-global Score
-Score= 0
+#random bounce coords
+def movebird():
+    return randrange(500,1000), randrange(100,700)
 
 def birdbound():
-    global Score
+    global cowscore
     try:
         dbBbox = playground.bbox(db)
         #defining the coordinates of the bird
@@ -60,10 +73,10 @@ def birdbound():
         dcowy2 = cowpicBbox[3]
 
         if dcowy1 <= dby1 <= dcowy2 and dcowx1 <= dbx1 <= dcowx2:
-            playground.move(db, 50, -50)
-            Score+=1
-            cowpointslabel.config("Cow:" + str(Score) + " points")
-
+            #this is where the cow gains points from collision with the bird
+            playground.coords(db, movebird())
+            cowscore+=1
+            cowpointslabel.config(text = "Cow:" + str(cowscore) + " points")
 
         #left side
         elif dbx1 <10 :
@@ -91,18 +104,13 @@ def birdbound():
         elif dby2 > 630:
             playground.move(db, 0, -10)
 
-cowpointslabel = Label(window, text= "Cow:", bg= "green", fg = "blue", height = "5", width = "40")
-cowpointslabel.place(x=100, y=10)
-
-
-
-
 #movement of the bird
 def moveright(event):
     global moveright
     for i in range(3):
         playground.move(db, 5, 0)
         birdbound()
+
 def moveleft(event):
     global moveleft
     for i in range(3):
@@ -111,17 +119,20 @@ def moveleft(event):
         #defining the coordinates of the bird
         dbx1 = dbBbox[0]
         if dbx1 < (50):
+                #This is where the bird gains points
                 global Birdscore
                 playground.move(db, 1000, 0)
                 Birdscore+=1
                 birdpointslabel.config(text="Bird:" + str(Birdscore) + " points")
         else:
             birdbound()
+
 def moveup(event):
     global moveup
     for i in range(3):
         playground.move(db, 0, -5)
         birdbound()
+
 def movedown(event):
     global movedown
     for i in range(3):
@@ -130,17 +141,21 @@ def movedown(event):
 
 #binds keys to movements
 playground.bind_all("<Right>", moveright)
+
 playground.bind_all("<Left>", moveleft)
+
 playground.bind_all("<Up>", moveup)
+
 playground.bind_all("<Down>", movedown)
 
+#function for random cow placement on the Y-axis
 def cowoff():
     ry  = randint(30, 620)
     cowboundary= playground.bbox(dcow)
     if cowboundary[2] > 1400:
         playground.coords(dcow, -50, ry)
 
-
+#function for cow movement across the screen
 def moveCow():
     birdbound()
     cowoff()
@@ -151,30 +166,25 @@ def moveCow():
         window.after(50, moveCow)
 
 
-
-
+#creating the score labels:
 birdpointslabel = Label(window, text="Bird:", bg = "pink", fg = "red", height = "5", width = "40")
 birdpointslabel.place(x=700, y=10)
 
+cowpointslabel = Label(window, text= "Cow:", bg= "green", fg = "blue", height = "5", width = "40")
+cowpointslabel.place(x=100, y=10)
 
 
 
-
-#making the threads
+#making the thread for the cow so that it moves across the screen
 def threads(*args):
     thread1 = threading.Thread(target= moveCow)
     thread1.start()
 
+#making the label for the beginning of the game
 infoLabel = Label(window, text= "Push space 1x for easy, 2x for medium, and 3x for hard. Hit the finish line to gain points")
 infoLabel.pack()
 
-#starting thread
+#activation of cow movement thread
 playground.bind_all("<space>", threads)
+
 window.mainloop()
-
-
-
-
-
-
-
